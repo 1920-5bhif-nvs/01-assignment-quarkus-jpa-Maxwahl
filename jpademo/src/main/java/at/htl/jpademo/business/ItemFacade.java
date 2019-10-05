@@ -24,7 +24,6 @@ public class ItemFacade {
     public Item get(long id) {
         TypedQuery<Item> entities = em.createNamedQuery("Item.findById",Item.class);
         entities.setParameter("Id",id);
-        System.err.println(entities.toString());
         return  entities.getSingleResult();
     }
 

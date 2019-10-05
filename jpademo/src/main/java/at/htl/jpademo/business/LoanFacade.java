@@ -24,7 +24,6 @@ public class LoanFacade {
     public Loan get(long id) {
         TypedQuery<Loan> entities = em.createNamedQuery("Loan.findById",Loan.class);
         entities.setParameter("Id",id);
-        System.err.println(entities.toString());
         return  entities.getSingleResult();
     }
 
