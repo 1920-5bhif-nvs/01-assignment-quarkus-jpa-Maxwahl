@@ -1,10 +1,9 @@
-package at.htl.jpademo;
+package at.htl.jpademo.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 @Path("/data")
 public class DataResource {
 
@@ -13,4 +12,4 @@ public class DataResource {
     public String hello() {
         return "hello";
     }
-}
+}   
