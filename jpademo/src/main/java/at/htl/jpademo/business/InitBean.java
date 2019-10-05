@@ -1,26 +1,25 @@
 package at.htl.jpademo.business;
 
 import at.htl.jpademo.model.*;
+import io.quarkus.runtime.StartupEvent;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Singleton;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton
+@ApplicationScoped
 public class InitBean {
 
-    @PersistenceContext
+    @Inject
     EntityManager em;
 
-    public InitBean() {
-    }
-
-    @PostConstruct
-    private void init(){
+    @Transactional
+    void init(@Observes StartupEvent event){
         System.err.print("******** hello");
         CD cd =new CD("test",9.11,"classic","mozart",123.1);
         em.persist(cd);

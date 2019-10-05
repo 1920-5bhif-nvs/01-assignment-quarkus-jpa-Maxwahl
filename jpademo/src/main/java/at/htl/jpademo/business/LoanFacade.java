@@ -3,13 +3,13 @@ package at.htl.jpademo.business;
 
 import at.htl.jpademo.model.Loan;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Stateless
+@ApplicationScoped
 public class LoanFacade {
 
     @PersistenceContext

@@ -1,5 +1,6 @@
 package at.htl.jpademo.model;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class Loan {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
+    @JsonbTransient
     @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH,CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE})
     Person person;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)

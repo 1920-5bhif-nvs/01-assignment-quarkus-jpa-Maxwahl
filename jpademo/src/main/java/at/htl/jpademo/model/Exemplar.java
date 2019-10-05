@@ -1,5 +1,6 @@
 package at.htl.jpademo.model;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Exemplar {
     @Enumerated(EnumType.STRING)
     Weariness weariness;
     @ManyToMany(mappedBy = "exemplars",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+            @JsonbTransient
     List<Loan> loans;
 
     //region constructors
