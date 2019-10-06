@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+@Path("persons")
 public class PersonResource {
     @Inject
     PersonFacade personFacade;
