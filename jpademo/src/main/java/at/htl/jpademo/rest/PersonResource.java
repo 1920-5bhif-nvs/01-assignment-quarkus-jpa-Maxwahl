@@ -2,7 +2,6 @@ package at.htl.jpademo.rest;
 
 import at.htl.jpademo.business.PersonFacade;
 import at.htl.jpademo.model.Person;
-import at.htl.jpademo.model.Person;
 
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
