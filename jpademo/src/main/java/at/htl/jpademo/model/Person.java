@@ -1,5 +1,6 @@
 package at.htl.jpademo.model;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +13,8 @@ public class Person {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
     String name;
-    @OneToMany(mappedBy = "person",fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH,CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToMany(mappedBy = "person",fetch = FetchType.LAZY,cascade = {CascadeType.REFRESH,CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE})
+            @JsonbTransient
     List<Loan> loans;
     public Person(String name) {
         this.name = name;
@@ -35,5 +37,14 @@ public class Person {
 
     public void setLoans(List<Loan> loans) {
         this.loans = loans;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "Id=" + Id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -4,27 +4,31 @@ package at.htl.jpademo.business;
 import at.htl.jpademo.model.Loan;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.HashMap;
 import java.util.List;
 
 @ApplicationScoped
 public class LoanFacade {
 
-    @PersistenceContext
+    @Inject
     EntityManager em;
 
 
     public List<Loan> get() {
         TypedQuery<Loan> entities = em.createNamedQuery("Loan.findAll",Loan.class);
-        return  entities.getResultList();
+        return  entities.setHint("javax.persistence.fetchgraph",em.getEntityGraph("loan-entity-graph")).getResultList();
     }
 
     public Loan get(long id) {
-        TypedQuery<Loan> entities = em.createNamedQuery("Loan.findById",Loan.class);
-        entities.setParameter("Id",id);
-        return  entities.getSingleResult();
+        EntityGraph eg = em.getEntityGraph("loan-entity-graph");
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("javax.persistence.loadgraph", eg);
+        return  em.find(Loan.class,id,properties);
     }
 
     public void remove(Loan entity) {

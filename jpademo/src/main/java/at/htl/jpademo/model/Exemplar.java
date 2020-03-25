@@ -14,7 +14,7 @@ public class Exemplar {
     Item item;
     @Enumerated(EnumType.STRING)
     Weariness weariness;
-    @ManyToMany(mappedBy = "exemplars",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "exemplars",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
             @JsonbTransient
     List<Loan> loans;
 

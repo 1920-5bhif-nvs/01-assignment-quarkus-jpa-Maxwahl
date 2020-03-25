@@ -2,25 +2,46 @@ package at.htl.jpademo.model;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Loan.findById",query = "select l from Loan l where l.Id= :Id"),
         @NamedQuery(name = "Loan.findAll",query = "select l from Loan l")
 })
-public class Loan {
+@NamedEntityGraph(
+        name = "loan-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode(value = "Id"),
+                @NamedAttributeNode(value = "person",subgraph = "personGraph")
+        }
+        ,subgraphs = {
+        @NamedSubgraph(
+                name = "personGraph",
+                attributeNodes = {
+                        @NamedAttributeNode("Id"),
+                        @NamedAttributeNode("name")
+                }
+        )
+}
+)
+public class Loan implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
-    @JsonbTransient
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH,CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE})
-    Person person;
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    List<Exemplar> exemplars;
-    LocalDate doT;
-    LocalDate doAR;
-    LocalDate doR;
+    private Long Id;
+    @ManyToOne(fetch = LAZY)
+    private Person person;
+    @ManyToMany(fetch = LAZY)
+    private List<Exemplar> exemplars;
+    @Basic(fetch = LAZY)
+    private LocalDate doT;
+    @Basic(fetch = LAZY)
+    private LocalDate doAR;
+    @Basic(fetch = LAZY)
+    private LocalDate doR;
 
     public Loan(Person person, List<Exemplar> exemplars, LocalDate doT, LocalDate doR) {
         this.person = person;
@@ -86,4 +107,17 @@ public class Loan {
         exemplar.addLoan(this);
     }
     //endregion
+
+
+    @Override
+    public String toString() {
+        return "Loan{" +
+                "Id=" + Id +
+                ", person=" + person.toString() +
+                ", exemplars=" + exemplars.toString() +
+                ", doT=" + doT +
+                ", doAR=" + doAR +
+                ", doR=" + doR +
+                '}';
+    }
 }
